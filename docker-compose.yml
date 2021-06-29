@@ -1,0 +1,36 @@
+version: '3.2'
+
+# Only one of these will be up at a time for now.
+# Concurrency will be on the tests folder we have.
+
+services:
+  modsecurity-drupal:
+    container_name: modsecurity-drupal
+    build:
+      context: ./crs
+    environment:
+      SERVERNAME: modsec2-apache
+      BACKEND: http://drupal
+      PORT: "80"
+      MODSEC_RULE_ENGINE: DetectionOnly
+      PARANOIA: 4
+      ERRORLOG: "/var/log/error.log"
+      ACCESSLOG: "/var/log/access.log"
+      MODSEC_AUDIT_LOG_FORMAT: Native
+      MODSEC_AUDIT_LOG_TYPE: Serial
+      MODSEC_AUDIT_LOG: "/var/log/modsec_audit.log"
+    volumes:
+      - ./logs:/var/log:rw
+      # If you want to include other rules directory, uncommment this
+      # - ../rules:/opt/owasp-crs/rules:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - drupal
+  drupal:
+    container_name: drupal
+    build:
+      context: ./drupal
+      args:
+        DRUPAL_VERSION: 8.1.0
+        PHP_BASE: 7.1-apache-buster
