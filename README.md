@@ -9,6 +9,8 @@ You'll need:
 
 Usage:
 ```sh
+$ docker-compose build
+...
 $ docker-compose up
 Docker Compose is now in the Docker CLI, try `docker compose up`
 
@@ -24,3 +26,5 @@ drupal                | [Tue Jun 29 14:00:37.365935 2021] [core:notice] [pid 1] 
 You can edit and change version in the `docker-compose.yml` file, to match your setup.
 
 For quick tests, this image isn't bundled with MySQL or others. We suggest you to just use `SQLite`. In the install menu, select `SQLite` from the menu, and choose the default `sites/default/files/.ht.sqlite` file.
+
+⚠️  This was not meant for production use!
